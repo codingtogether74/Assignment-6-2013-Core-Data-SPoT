@@ -2,11 +2,12 @@
 //  Photo.m
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/9/13.
+//  Created by Tatiana Kornilova on 3/10/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
 #import "Photo.h"
+#import "PhotoTag.h"
 #import "Tag.h"
 #import "Thumnail.h"
 
@@ -21,5 +22,6 @@
 @dynamic unique;
 @dynamic tags;
 @dynamic thumnail;
+@dynamic photoTags;
 
 @end

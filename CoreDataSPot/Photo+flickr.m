@@ -9,6 +9,7 @@
 #import "Photo+flickr.h"
 #import "FlickrFetcher.h"
 #import "Tag+Create.h"
+#import "PhotoTag+Insert.h"
 
 @implementation Photo (flickr)
 +(Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
@@ -33,6 +34,7 @@
         photo.imageURL = [[FlickrFetcher urlForPhoto:flickrInfo format:FlickrPhotoFormatLarge] absoluteString];
         photo.thumnailURL = [[FlickrFetcher urlForPhoto:flickrInfo format:FlickrPhotoFormatSquare] absoluteString];
         photo.tags = [Tag tagsFromFlickrInfo:flickrInfo inManagedObjectContext:context];
+        photo.photoTags = [PhotoTag photoTagsFromFlickrInfo:flickrInfo inManagedObjectContext:context];
 
         //start creating objects in document's context
     } else {

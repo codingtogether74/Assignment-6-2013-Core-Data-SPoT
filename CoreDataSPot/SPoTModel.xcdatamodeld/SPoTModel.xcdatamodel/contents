@@ -7,13 +7,21 @@
         <attribute name="thumnailURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unique" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photoTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoTag" inverseName="photo" inverseEntity="PhotoTag" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="photos" inverseEntity="Tag" syncable="YES"/>
         <relationship name="thumnail" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Thumnail" inverseName="photo" inverseEntity="Thumnail" syncable="YES"/>
+    </entity>
+    <entity name="PhotoTag" representedClassName="PhotoTag" syncable="YES">
+        <attribute name="nameTag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uniquePhoto" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="photoTags" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="tag" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="photoTags" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="tags" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="photoTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoTag" inverseName="tag" inverseEntity="PhotoTag" syncable="YES"/>
     </entity>
     <entity name="Thumnail" representedClassName="Thumnail" syncable="YES">
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -21,8 +29,9 @@
         <relationship name="photo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="thumnail" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Photo" positionX="-173" positionY="-261" width="128" height="163"/>
-        <element name="Tag" positionX="-477" positionY="-520" width="128" height="88"/>
-        <element name="Thumnail" positionX="-504" positionY="-315" width="128" height="88"/>
+        <element name="Photo" positionX="-180" positionY="-477" width="128" height="178"/>
+        <element name="Tag" positionX="-441" positionY="-693" width="128" height="103"/>
+        <element name="Thumnail" positionX="-504" positionY="-387" width="128" height="88"/>
+        <element name="PhotoTag" positionX="-0" positionY="-693" width="128" height="103"/>
     </elements>
 </model>

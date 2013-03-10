@@ -33,11 +33,13 @@
 		E496842116EB04AC00AA980F /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E496842016EB04A900AA980F /* DBHelper.m */; };
 		E496843C16EB880500AA980F /* Thumnail+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = E496843B16EB880400AA980F /* Thumnail+Create.m */; };
 		E496843F16EB888A00AA980F /* SPoTModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E496843D16EB888500AA980F /* SPoTModel.xcdatamodeld */; };
-		E496849E16EB9CAE00AA980F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = E496849D16EB9CAE00AA980F /* Photo.m */; };
-		E49684A116EB9CB000AA980F /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684A016EB9CAF00AA980F /* Tag.m */; };
-		E49684A416EB9CB100AA980F /* Thumnail.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684A316EB9CB100AA980F /* Thumnail.m */; };
 		E49684A916EC2C0200AA980F /* NSString+FetchedGroupByString.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684A816EC2C0200AA980F /* NSString+FetchedGroupByString.m */; };
 		E49684AB16EC330300AA980F /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E49684AA16EC330300AA980F /* iPad.storyboard */; };
+		E49684BA16ECFDBF00AA980F /* PhotoTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684B916ECFDBE00AA980F /* PhotoTag.m */; };
+		E49684BD16ECFDC300AA980F /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684BC16ECFDC200AA980F /* Tag.m */; };
+		E49684C016ECFDC600AA980F /* Thumnail.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684BF16ECFDC600AA980F /* Thumnail.m */; };
+		E49684C316ECFDC800AA980F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684C216ECFDC700AA980F /* Photo.m */; };
+		E49684C616ECFE6D00AA980F /* PhotoTag+Insert.m in Sources */ = {isa = PBXBuildFile; fileRef = E49684C516ECFE6C00AA980F /* PhotoTag+Insert.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,15 +89,19 @@
 		E496843A16EB880400AA980F /* Thumnail+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Thumnail+Create.h"; path = "CoreDataSPot/Thumnail+Create.h"; sourceTree = SOURCE_ROOT; };
 		E496843B16EB880400AA980F /* Thumnail+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Thumnail+Create.m"; path = "CoreDataSPot/Thumnail+Create.m"; sourceTree = SOURCE_ROOT; };
 		E496843E16EB888A00AA980F /* SPoTModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SPoTModel.xcdatamodel; sourceTree = "<group>"; };
-		E496849C16EB9CAD00AA980F /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		E496849D16EB9CAE00AA980F /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
-		E496849F16EB9CAF00AA980F /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
-		E49684A016EB9CAF00AA980F /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
-		E49684A216EB9CB000AA980F /* Thumnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumnail.h; sourceTree = "<group>"; };
-		E49684A316EB9CB100AA980F /* Thumnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thumnail.m; sourceTree = "<group>"; };
 		E49684A716EC2C0200AA980F /* NSString+FetchedGroupByString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FetchedGroupByString.h"; sourceTree = "<group>"; };
 		E49684A816EC2C0200AA980F /* NSString+FetchedGroupByString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FetchedGroupByString.m"; sourceTree = "<group>"; };
 		E49684AA16EC330300AA980F /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
+		E49684B816ECFDBD00AA980F /* PhotoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTag.h; sourceTree = "<group>"; };
+		E49684B916ECFDBE00AA980F /* PhotoTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTag.m; sourceTree = "<group>"; };
+		E49684BB16ECFDC100AA980F /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		E49684BC16ECFDC200AA980F /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		E49684BE16ECFDC500AA980F /* Thumnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumnail.h; sourceTree = "<group>"; };
+		E49684BF16ECFDC600AA980F /* Thumnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thumnail.m; sourceTree = "<group>"; };
+		E49684C116ECFDC700AA980F /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		E49684C216ECFDC700AA980F /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		E49684C416ECFE6B00AA980F /* PhotoTag+Insert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PhotoTag+Insert.h"; sourceTree = "<group>"; };
+		E49684C516ECFE6C00AA980F /* PhotoTag+Insert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PhotoTag+Insert.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,9 +157,9 @@
 				E49683B716E8E62400AA980F /* iPhone.storyboard */,
 				E49684AA16EC330300AA980F /* iPad.storyboard */,
 				E496841416EA1D9D00AA980F /* ResentsTVC.m */,
-				E496841316EA1D8500AA980F /* ResentsTVC.h */,
 				E49683CB16E8EAB700AA980F /* FlickrPhotoTVC.h */,
 				E49683CC16E8EAB700AA980F /* FlickrPhotoTVC.m */,
+				E496841316EA1D8500AA980F /* ResentsTVC.h */,
 				E49683CA16E8EA3400AA980F /* ImageViewController.h */,
 				E49683C816E8EA2000AA980F /* ImageViewController.m */,
 				E49683C516E8E74000AA980F /* StanfordTagsTVC.h */,
@@ -192,18 +198,22 @@
 		E49684A516EBACCE00AA980F /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				E496849C16EB9CAD00AA980F /* Photo.h */,
-				E496849D16EB9CAE00AA980F /* Photo.m */,
+				E49684C116ECFDC700AA980F /* Photo.h */,
+				E49684C216ECFDC700AA980F /* Photo.m */,
+				E49684BE16ECFDC500AA980F /* Thumnail.h */,
+				E49684BF16ECFDC600AA980F /* Thumnail.m */,
+				E49684BB16ECFDC100AA980F /* Tag.h */,
+				E49684BC16ECFDC200AA980F /* Tag.m */,
+				E49684B816ECFDBD00AA980F /* PhotoTag.h */,
+				E49684B916ECFDBE00AA980F /* PhotoTag.m */,
+				E49684C416ECFE6B00AA980F /* PhotoTag+Insert.h */,
+				E49684C516ECFE6C00AA980F /* PhotoTag+Insert.m */,
 				E496843A16EB880400AA980F /* Thumnail+Create.h */,
 				E496843B16EB880400AA980F /* Thumnail+Create.m */,
 				E49683E516E9B89000AA980F /* Photo+flickr.h */,
 				E49683E616E9B89000AA980F /* Photo+flickr.m */,
 				E49683E816E9C0EB00AA980F /* Tag+Create.h */,
 				E49683E916E9C0EC00AA980F /* Tag+Create.m */,
-				E49684A216EB9CB000AA980F /* Thumnail.h */,
-				E49684A316EB9CB100AA980F /* Thumnail.m */,
-				E496849F16EB9CAF00AA980F /* Tag.h */,
-				E49684A016EB9CAF00AA980F /* Tag.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -315,10 +325,12 @@
 				E496842116EB04AC00AA980F /* DBHelper.m in Sources */,
 				E496843C16EB880500AA980F /* Thumnail+Create.m in Sources */,
 				E496843F16EB888A00AA980F /* SPoTModel.xcdatamodeld in Sources */,
-				E496849E16EB9CAE00AA980F /* Photo.m in Sources */,
-				E49684A116EB9CB000AA980F /* Tag.m in Sources */,
-				E49684A416EB9CB100AA980F /* Thumnail.m in Sources */,
 				E49684A916EC2C0200AA980F /* NSString+FetchedGroupByString.m in Sources */,
+				E49684BA16ECFDBF00AA980F /* PhotoTag.m in Sources */,
+				E49684BD16ECFDC300AA980F /* Tag.m in Sources */,
+				E49684C016ECFDC600AA980F /* Thumnail.m in Sources */,
+				E49684C316ECFDC800AA980F /* Photo.m in Sources */,
+				E49684C616ECFE6D00AA980F /* PhotoTag+Insert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

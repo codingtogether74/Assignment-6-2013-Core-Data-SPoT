@@ -1,5 +1,5 @@
 //
-//  Thumnail.h
+//  PhotoTag.h
 //  CoreDataSPot
 //
 //  Created by Tatiana Kornilova on 3/10/13.
@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Photo;
+@class Photo, Tag;
 
-@interface Thumnail : NSManagedObject
+@interface PhotoTag : NSManagedObject
 
-@property (nonatomic, retain) NSData * imageData;
-@property (nonatomic, retain) NSString * unique;
+@property (nonatomic, retain) NSString * uniquePhoto;
+@property (nonatomic, retain) NSString * nameTag;
 @property (nonatomic, retain) Photo *photo;
+@property (nonatomic, retain) Tag *tag;
 
 @end

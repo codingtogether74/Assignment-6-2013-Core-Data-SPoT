@@ -12,6 +12,8 @@
 #import "FlickrFetcher.h"
 #import "Thumnail+Create.h"
 #import "ImageViewController.h"
+#import "Tag+Create.h"
+#import "PhotoTag+Insert.h"
 
 @implementation FlickrPhotoTVC
 
@@ -28,20 +30,20 @@
         
         self.fetchedResultsController =   [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                               managedObjectContext:self.tag.managedObjectContext
-                                                                                sectionNameKeyPath:@"title.stringGroupByFirstLetter"
+                                                                            sectionNameKeyPath:@"title.stringGroupByFirstLetter"
                                                                                          cacheName:nil];
     } else{
         
-        NSFetchRequest *request       =   [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+        NSFetchRequest *request       =   [NSFetchRequest fetchRequestWithEntityName:@"PhotoTag"];
         request.sortDescriptors       =   [NSArray arrayWithObject:[NSSortDescriptor
-                                                                    sortDescriptorWithKey:@"title"
+                                                                    sortDescriptorWithKey:@"nameTag"
                                                                     ascending:YES
                                                                     selector:@selector(localizedCaseInsensitiveCompare:)]];
-        //        request.predicate             =   [NSPredicate predicateWithFormat:@"%@ in tags",self.tag];
+        //        request.predicate             =   [NSPredicate predicateWithFormat:@"ANY photos",self.tag];
         
         self.fetchedResultsController =   [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                               managedObjectContext:self.tag.managedObjectContext
-                                                                                sectionNameKeyPath:nil
+                                                                                sectionNameKeyPath:@"nameTag"
                                                                                          cacheName:nil];
     }
     
@@ -60,7 +62,13 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
+    Photo *photo = nil;
+    if ([self.tag.name isEqualToString:@"All"]){
+        PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        photo = photoTag.photo;
+    }else {
+        photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    }
     cell.textLabel.text = photo.title;
     cell.detailTextLabel.text = photo.subtitle;
     //----Thumnail------------------
@@ -92,7 +100,14 @@
 {
     if ([sender isKindOfClass:[UITableViewCell class]]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        Photo *photo = nil;
+        if ([self.tag.name isEqualToString:@"All"]){
+            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
+            photo = photoTag.photo;
+        }else {
+            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        }
         if (indexPath) {
             if ([segue.identifier isEqualToString:@"Show image"]) {
                 if ([segue.destinationViewController respondsToSelector:@selector(setImageURL:)]) {
@@ -112,7 +127,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
-        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        Photo *photo = nil;
+        if ([self.tag.name isEqualToString:@"All"]){
+            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
+            photo = photoTag.photo;
+        }else {
+            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        }
         ImageViewController *photoViewController =
         (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
         if (photoViewController) {
