@@ -143,7 +143,7 @@
                 [photoViewController  setTitle:photo.title];
                 ///--To Resents----
                 [photo.managedObjectContext performBlock:^{
-                    [Photo putToResents:photo];
+                    [Photo putToResents:photo]; 
                 }];
                 
             }
