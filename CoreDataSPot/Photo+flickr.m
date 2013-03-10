@@ -75,8 +75,8 @@
 + (void)putToResents:(Photo *)photo
 {
     NSManagedObjectContext *context = photo.managedObjectContext;
-    photo.dateView = [NSDate date];
-    [context updatedObjects];
+    [Photo exisitingPhotoWithID:photo.unique inManagedObjectContext:context].dateView = [NSDate date];
+       [context updatedObjects];
 }
 
 + (void)removePhotoWithID:(NSString *)photoID

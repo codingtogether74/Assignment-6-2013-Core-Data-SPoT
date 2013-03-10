@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SplitViewBarButtonItemPresenter.h"
+#import "SplitViewsManager.h"
 
-@interface ImageViewController : UIViewController<SplitViewBarButtonItemPresenter>
+@interface ImageViewController : SplitViewsManager<SplitViewBarButtonItemPresenter>
 // the Model for this VC
 // simply the URL of a UIImage-compatible image (jpg, png, etc.)
 

@@ -12,7 +12,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SplitViewsManager : UITableViewController <UISplitViewControllerDelegate>
+@interface SplitViewsManager : UIViewController <UISplitViewControllerDelegate>
 - (void)transferSplitViewBarButtonItemToViewController:(id)destinationViewController;
 
 @end

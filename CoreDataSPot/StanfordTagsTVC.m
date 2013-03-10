@@ -20,12 +20,14 @@
 
 - (void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
 {
+    [self startRefreshControl];
+    
     dispatch_queue_t fetchQ = dispatch_queue_create("Flickr fetcher", NULL);
     dispatch_async(fetchQ, ^{
-       [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:YES];
-       NSArray *photos = [FlickrFetcher stanfordPhotos];
-       [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:NO];
-
+        [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:YES];
+        NSArray *photos = [FlickrFetcher stanfordPhotos];
+        [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:NO];
+        
         [document.managedObjectContext performBlock:^{
             for (NSDictionary *flickrInfo in photos) {
                 [Photo photoWithFlickrInfo:flickrInfo inManagedObjectContext:document.managedObjectContext];
@@ -36,10 +38,11 @@
             // this is what it would look like (ADDED AFTER LECTURE) ...
             [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
             // note that we don't do anything in the completion handler this time
+            [self stopRefreshing];
         }];
     });
 }
- 
+
 - (void)setupFetchedResultsControllerWithDocument:(UIManagedDocument *)document
 {
     NSFetchRequest *request       =    [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
@@ -63,42 +66,42 @@
         [dbh.database saveToURL:dbh.database.fileURL
                forSaveOperation:UIDocumentSaveForCreating
               completionHandler:^(BOOL success) {
-                     [self loadStanfordPhotos];
+                  [self loadStanfordPhotos];
                   [self setupFetchedResultsControllerWithDocument:dbh.database];
-        }];
+              }];
     };
+    
 }
 - (void)loadStanfordPhotos
 {
     UIManagedDocument *document =[DBHelper sharedManagedDocument].database;
-         [self startRefreshControl];
-         [self fetchFlickrDataIntoDocument:document];         
-         [self stopRefreshing];    
+    [self fetchFlickrDataIntoDocument:document];
+    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self useDocument];
-        
+    
     // a UIRefreshControl inherits from UIControl, so we can use normal target/action
     // this is the first time you’ve seen this done without ctrl-dragging in Xcode
     [self.refreshControl addTarget:self
                             action:@selector(loadStanfordPhotos)
                   forControlEvents:UIControlEventValueChanged];
     
-
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     DBHelper *dbh =[DBHelper sharedManagedDocument];
-    dbh.dbName =@"Stanford Photos Database";    
+    dbh.dbName =@"Stanford Photos Database";
     [[DBHelper sharedManagedDocument] performWithDocument:
      ^(UIManagedDocument *document) {
          [self setupFetchedResultsControllerWithDocument:document];
      }];
-     
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,7 +113,7 @@
     Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = tag.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ photos", tag.count];
-
+    
     return cell;
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

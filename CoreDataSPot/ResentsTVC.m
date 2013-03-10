@@ -9,6 +9,7 @@
 #import "ResentsTVC.h"
 #import "Photo.h"
 #import "DBHelper.h"
+#import "ImageViewController.h"
 
 
 @interface ResentsTVC ()
@@ -49,25 +50,7 @@
         self.title =[NSString stringWithFormat:@"Photos (-)"];
     }
 }
--(void)viewDidLoad
-{
-    [super viewDidLoad];
 
-}
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Flickr Photo Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath]; // ask NSFRC for the NSMO at the row in question
-    cell.textLabel.text = photo.title;
-    cell.detailTextLabel.text = photo.subtitle;
-    
-    return cell;
-}
- 
 //-----------iPhone-----------------------
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -84,5 +67,21 @@
         }
     }
 }
-*/
+
+//------------------ iPad ------------------------
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
+        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        ImageViewController *photoViewController =
+        (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
+        if (photoViewController) {
+            if ([photoViewController respondsToSelector:@selector(setImageURL:)]) {
+                [photoViewController  performSelector:@selector(setImageURL:) withObject:[NSURL URLWithString:photo.imageURL]];
+                [photoViewController  setTitle:photo.title];
+            }
+        }
+    }
+}
+
 @end

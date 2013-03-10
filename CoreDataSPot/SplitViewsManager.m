@@ -38,7 +38,7 @@
           withBarButtonItem:(UIBarButtonItem *)barButtonItem
        forPopoverController:(UIPopoverController *)pc
 {
-    barButtonItem.title = self.navigationController.navigationBar.topItem.title;//  need Title in subclass in storyboard
+    barButtonItem.title = @"Photos";//self.navigationController.navigationBar.topItem.title;//  need Title in subclass in storyboard
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
 }
 

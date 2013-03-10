@@ -21,17 +21,15 @@
     NSError *error =nil;
     NSArray *matches = [context executeFetchRequest:request error:&error];
     
-    if (!matches || [matches count]>1) {
+    if (!matches || [matches count]>=1) {
         //handl error
     } else if ([matches count]==0) {
         thumnail =[NSEntityDescription insertNewObjectForEntityForName:@"Thumnail" inManagedObjectContext:context];
         thumnail .unique = photo.unique;
         thumnail.imageData = imageData;
         thumnail.photo = [Photo exisitingPhotoWithID:photo.unique inManagedObjectContext:context];
-    } else {
-        thumnail =[matches lastObject];
+        [context insertObject:thumnail];
     }
-    [context insertObject:thumnail];
 }
 
 + (NSData *)imageDataThumnailForPhoto:(Photo *)photo
