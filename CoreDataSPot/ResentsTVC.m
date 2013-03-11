@@ -12,12 +12,7 @@
 #import "ImageViewController.h"
 
 
-@interface ResentsTVC ()
-
-@end
-
 @implementation ResentsTVC
-
 
 - (void)setupFetchedResultsControllerWithDocument:(UIManagedDocument *)document
 

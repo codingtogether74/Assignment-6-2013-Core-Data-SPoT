@@ -39,7 +39,6 @@
                                                                     sortDescriptorWithKey:@"nameTag"
                                                                     ascending:YES
                                                                     selector:@selector(localizedCaseInsensitiveCompare:)]];
-        //        request.predicate             =   [NSPredicate predicateWithFormat:@"ANY photos",self.tag];
         
         self.fetchedResultsController =   [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                               managedObjectContext:self.tag.managedObjectContext
@@ -61,7 +60,9 @@
     static NSString *CellIdentifier = @"Flickr Photo Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    // Configure the cell..
+//-------------Take photo from NSFetchedResultsController---
+    
     Photo *photo = nil;
     if ([self.tag.name isEqualToString:@"All"]){
         PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -69,6 +70,7 @@
     }else {
         photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
     }
+//--------------------------- NSFetchedresultController-----
     cell.textLabel.text = photo.title;
     cell.detailTextLabel.text = photo.subtitle;
     //----Thumnail------------------
@@ -127,7 +129,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
-//        Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//------ Take photo from NSFetchedResulsController----
+        
         Photo *photo = nil;
         if ([self.tag.name isEqualToString:@"All"]){
             PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -135,6 +138,7 @@
         }else {
             photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
         }
+//---------------------------------------------------
         ImageViewController *photoViewController =
         (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
         if (photoViewController) {
@@ -144,8 +148,7 @@
                 ///--To Resents----
                 [photo.managedObjectContext performBlock:^{
                     [Photo putToResents:photo]; 
-                }];
-                
+                }];                
             }
         }
     }
