@@ -151,7 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				E49683CE16E8EB2500AA980F /* FlickrFetcher */,
-				E49684A616EBAF0C00AA980F /* Helper */,
+				E49684A616EBAF0C00AA980F /* Helpers */,
 				E49684A516EBACCE00AA980F /* Core Data */,
 				E496843D16EB888500AA980F /* SPoTModel.xcdatamodeld */,
 				E49683B716E8E62400AA980F /* iPhone.storyboard */,
@@ -218,7 +218,7 @@
 			name = "Core Data";
 			sourceTree = "<group>";
 		};
-		E49684A616EBAF0C00AA980F /* Helper */ = {
+		E49684A616EBAF0C00AA980F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				E496841F16EB04A800AA980F /* DBHelper.h */,
@@ -237,7 +237,7 @@
 				E49684A716EC2C0200AA980F /* NSString+FetchedGroupByString.h */,
 				E49684A816EC2C0200AA980F /* NSString+FetchedGroupByString.m */,
 			);
-			name = Helper;
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

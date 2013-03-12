@@ -101,7 +101,6 @@
      ^(UIManagedDocument *document) {
          [self setupFetchedResultsControllerWithDocument:document];
      }];
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
