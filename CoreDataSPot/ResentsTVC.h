@@ -10,5 +10,6 @@
 #import "CoreDataTableViewController.h"
 
 @interface ResentsTVC : FlickrPhotoTVC;//CoreDataTableViewController;
+@property (nonatomic) BOOL toResent;
 
 @end

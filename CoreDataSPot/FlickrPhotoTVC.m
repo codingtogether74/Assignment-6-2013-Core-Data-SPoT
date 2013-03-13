@@ -17,6 +17,7 @@
 
 @interface FlickrPhotoTVC () <UISearchDisplayDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//@property (nonatomic) BOOL toResent;
 
 @property (nonatomic, strong) NSArray *sortDescriptors; // array of NSSortDescriptor describing how photo been sorted
 @property (nonatomic, strong) NSString *sectionKeyPath;
@@ -38,8 +39,11 @@
 {
     _tag = tag;
     self.title =tag.name;
+[[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
+    [self setupFetchedResultsControllerWithDocument:document];
+    }];
+    self.toResent =YES;
 }
-
 //----------------------------------------------------------------
 # pragma mark   -   Accessors for main NSFetchedResultController
 //----------------------------------------------------------------
@@ -161,12 +165,9 @@
                                                                                          cacheName:nil];
 }
 
-
-
 //----------------------------------------------------------------
 # pragma mark   -   Table view data source
 //----------------------------------------------------------------
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -208,36 +209,6 @@
     
     return cell;
 }
-
-
-//----------------------------------------------------------------
-# pragma mark   -    View lifecycle
-//----------------------------------------------------------------
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-//        self.navigationItem.rightBarButtonItem = self.searchButton;
-    [[DBHelper sharedManagedDocument] performWithDocument:
-     ^(UIManagedDocument *document) {
-         [self setupFetchedResultsControllerWithDocument:document];
-     }];
-
-//    self.debug =YES;
-
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    DBHelper *dbh =[DBHelper sharedManagedDocument];
-    dbh.dbName =@"Stanford Photos Database";
-    [[DBHelper sharedManagedDocument] performWithDocument:
-     ^(UIManagedDocument *document) {
-         [self setupFetchedResultsControllerWithDocument:document];
-     }];
-}
-
 //----------------------------------------------------------------
 # pragma mark   -    prepareForSegue
 //----------------------------------------------------------------
@@ -246,7 +217,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([sender isKindOfClass:[UITableViewCell class]]) {
-//=============================================
+        //=============================================
         NSIndexPath *indexPath;
         
         if (self.searchDisplayController.active) {
@@ -254,7 +225,7 @@
         } else {
             indexPath = [self.tableView indexPathForCell:sender];
         }
-//===============================================
+        //===============================================
         Photo *photo = nil;
         if ([self.tag.name isEqualToString:@"All"]){
             PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -268,9 +239,11 @@
                     [segue.destinationViewController performSelector:@selector(setImageURL:) withObject:[NSURL URLWithString:photo.imageURL]];
                     [segue.destinationViewController setTitle:photo.title];
                     ///--To Resents----
-                    [photo.managedObjectContext performBlock:^{
-                        [Photo putToResents:photo];
-                    }];
+                    if (self.toResent) {
+                        [photo.managedObjectContext performBlock:^{
+                            [Photo putToResents:photo];
+                        }];
+                    }
                 }
             }
         }
@@ -285,7 +258,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
-//------ Take photo from NSFetchedResulsController----
+        //------ Take photo from NSFetchedResulsController----
         
         Photo *photo = nil;
         if ([self.tag.name isEqualToString:@"All"]){
@@ -294,7 +267,7 @@
         }else {
             photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
         }
-//---------------------------------------------------
+        //---------------------------------------------------
         ImageViewController *photoViewController =
         (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
         if (photoViewController) {
@@ -302,9 +275,11 @@
                 [photoViewController  performSelector:@selector(setImageURL:) withObject:[NSURL URLWithString:photo.imageURL]];
                 [photoViewController  setTitle:photo.title];
                 ///--To Resents----
-                [photo.managedObjectContext performBlock:^{
-                    [Photo putToResents:photo]; 
-                }];                
+                if (self.toResent) {
+                    [photo.managedObjectContext performBlock:^{
+                        [Photo putToResents:photo];
+                    }];
+                }
             }
         }
     }
@@ -344,9 +319,8 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString*)searchString searchScope:(NSInteger)searchOption {
     NSPredicate *predicate = nil;
-    if ([searchString length]){
+    if ([searchString length] && searchOption == 0){// typing
 //---------------length
-        if (searchOption == 0){ // typing
             if (![self.tag.name isEqualToString:@"All"]) {
                 predicate = [NSPredicate predicateWithFormat:@"(title contains[cd] %@)", searchString];
             }else{
@@ -364,10 +338,9 @@
             [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
                 [self setupSearchFetchedResultsControllerWithDocument:document];
                 [self performFetch];
-            }];
+           }];
             //---------------------------------------------
                 return YES;
-        }
 //-----------------length
     }    
     [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {

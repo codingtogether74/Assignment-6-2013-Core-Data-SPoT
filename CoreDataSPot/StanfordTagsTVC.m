@@ -13,37 +13,22 @@
 #import "DBHelper.h"
 
 @interface StanfordTagsTVC ()
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end
 
 @implementation StanfordTagsTVC
 
-- (void) fetchFlickrDataIntoDocument:(UIManagedDocument *)document
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
-    [self startRefreshControl];
-    
-    dispatch_queue_t fetchQ = dispatch_queue_create("Flickr fetcher", NULL);
-    dispatch_async(fetchQ, ^{
-        [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:YES];
-        NSArray *photos = [FlickrFetcher stanfordPhotos];
-        [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:NO];
-        
-        [document.managedObjectContext performBlock:^{
-            for (NSDictionary *flickrInfo in photos) {
-                [Photo photoWithFlickrInfo:flickrInfo inManagedObjectContext:document.managedObjectContext];
-            }
-            // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
-            // we could decide to rely on UIManagedDocument's autosaving, but explicit saving would be better
-            // because if we quit the app before autosave happens, then it'll come up blank next time we run
-            // this is what it would look like (ADDED AFTER LECTURE) ...
-            [document saveToURL:document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
-            // note that we don't do anything in the completion handler this time
-            [self stopRefreshing];
-        }];
-    });
+    _managedObjectContext = managedObjectContext;
+    if (managedObjectContext) {
+        [self setupFetchedResultsController];
+    } else {
+        self.fetchedResultsController = nil;
+    }
 }
-
-- (void)setupFetchedResultsControllerWithDocument:(UIManagedDocument *)document
+- (void)setupFetchedResultsController
 {
     NSFetchRequest *request       =    [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
     request.sortDescriptors       =    [NSArray arrayWithObject:[NSSortDescriptor
@@ -53,54 +38,83 @@
     
     self.fetchedResultsController =    [[NSFetchedResultsController alloc]
                                         initWithFetchRequest:request
-                                        managedObjectContext:document.managedObjectContext
+                                        managedObjectContext:self.managedObjectContext
                                         sectionNameKeyPath:nil cacheName:nil];
     
 }
+#pragma mark - Refreshing
+
+// Fires off a block on a queue to fetch data from Flickr.
+// When the data comes back, it is loaded into Core Data by posting a block to do so on
+//   self.managedObjectContext's proper queue (using performBlock:).
+// Data is loaded into Core Data by calling photoWithFlickrInfo:inManagedObjectContext: category method.
+
+- (IBAction)refresh
+{
+//    [self.refreshControl beginRefreshing];
+    [self startRefreshControl];
+    [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:YES];
+
+    dispatch_queue_t fetchQ = dispatch_queue_create("Flickr Fetch", NULL);
+    dispatch_async(fetchQ, ^{
+        NSArray *photos = [FlickrFetcher stanfordPhotos];
+        // put the photos in Core Data
+        [self.managedObjectContext performBlock:^{
+            for (NSDictionary *photo in photos) {
+                [Photo photoWithFlickrInfo:photo inManagedObjectContext:self.managedObjectContext];
+            }
+            // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
+            // we could decide to rely on UIManagedDocument's autosaving, but explicit saving would be better
+            // because if we quit the app before autosave happens, then it'll come up blank next time we run
+            // this is what it would look like (ADDED AFTER LECTURE) ...
+            [self.photoDatabase saveToURL:self.photoDatabase.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:NULL];
+            // note that we don't do anything in the completion handler this time
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self.refreshControl endRefreshing];
+                [NetworkIndicatorHelper setNetworkActivityIndicatorVisible:NO];
+                [self stopRefreshing];
+            });
+        }];
+    });
+}
+
 -(void)useDocument
 {
     DBHelper *dbh =[DBHelper sharedManagedDocument];
     dbh.dbName =@"Stanford Photos Database";
+    self.photoDatabase = dbh.database;
     
     if (![dbh.fileManager fileExistsAtPath:[dbh.database.fileURL path]]){
         [dbh.database saveToURL:dbh.database.fileURL
                forSaveOperation:UIDocumentSaveForCreating
               completionHandler:^(BOOL success) {
-                  [self loadStanfordPhotos];
-                  [self setupFetchedResultsControllerWithDocument:dbh.database];
+                  if (success) {
+                      self.managedObjectContext = self.photoDatabase.managedObjectContext;
+                      [self refresh];
+                  }
               }];
-    };
-    
+    } else if (self.photoDatabase.documentState == UIDocumentStateClosed) {
+        [self.photoDatabase openWithCompletionHandler:^(BOOL success) {
+            if (success) {
+                self.managedObjectContext = self.photoDatabase.managedObjectContext;
+            }
+        }];
+    } else {
+        self.managedObjectContext = self.photoDatabase.managedObjectContext;
+    }    
 }
-- (void)loadStanfordPhotos
-{
-    UIManagedDocument *document =[DBHelper sharedManagedDocument].database;
-    [self fetchFlickrDataIntoDocument:document];
-    
-}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self useDocument];
-    
-    // a UIRefreshControl inherits from UIControl, so we can use normal target/action
-    // this is the first time you’ve seen this done without ctrl-dragging in Xcode
     [self.refreshControl addTarget:self
-                            action:@selector(loadStanfordPhotos)
+                            action:@selector(refresh)
                   forControlEvents:UIControlEventValueChanged];
-    
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    DBHelper *dbh =[DBHelper sharedManagedDocument];
-    dbh.dbName =@"Stanford Photos Database";
-    [[DBHelper sharedManagedDocument] performWithDocument:
-     ^(UIManagedDocument *document) {
-         [self setupFetchedResultsControllerWithDocument:document];
-     }];
+    if (!self.managedObjectContext) [self useDocument];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,18 +129,29 @@
     
     return cell;
 }
+#pragma mark - Segue
+
+// Gets the NSIndexPath of the UITableViewCell which is sender.
+// Then uses that NSIndexPath to find the Tag in question using NSFetchedResultsController.
+// Prepares a destination view controller through the "Show Photos For Tag" segue by sending that to it.
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    // be somewhat generic here (slightly advanced usage)
-    // we'll segue to ANY view controller that has a tag @property
-    if ([segue.destinationViewController respondsToSelector:@selector(setTag:)]) {
-        // use performSelector:withObject: to send without compiler checking
-        // (which is acceptable here because we used introspection to be sure this is okay)
-        [segue.destinationViewController performSelector:@selector(setTag:) withObject:tag];
+    NSIndexPath *indexPath = nil;
+    
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        indexPath = [self.tableView indexPathForCell:sender];
+    }
+    if (indexPath) {
+        if ([segue.identifier isEqualToString:@"Show Photos For Tag"]) {
+            Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
+            if ([segue.destinationViewController respondsToSelector:@selector(setTag:)]) {
+                [segue.destinationViewController performSelector:@selector(setTag:) withObject:tag];
+            }
+        }
     }
 }
+
 - (void)startRefreshControl
 {
     [self.refreshControl beginRefreshing];

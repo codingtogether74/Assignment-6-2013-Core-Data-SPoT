@@ -12,4 +12,6 @@
 
 @interface FlickrPhotoTVC : CoreDataTableViewController;
 @property (nonatomic,strong) Tag *tag;
+@property (nonatomic) BOOL toResent;
+
 @end
