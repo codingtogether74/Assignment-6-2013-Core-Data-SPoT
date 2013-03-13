@@ -60,7 +60,11 @@
         NSArray *photos = [FlickrFetcher stanfordPhotos];
         // put the photos in Core Data
         [self.managedObjectContext performBlock:^{
+ //----remove deleted photos --
+            NSArray *deletedPhotoID =[self deletedPhotosIDInManagedObjectContext:self.managedObjectContext];
             for (NSDictionary *photo in photos) {
+                NSString *unique =[photo[FLICKR_PHOTO_ID] description];
+                if ([deletedPhotoID containsObject:unique]) continue;
                 [Photo photoWithFlickrInfo:photo inManagedObjectContext:self.managedObjectContext];
             }
             // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
@@ -76,6 +80,26 @@
             });
         }];
     });
+}
+- (NSArray *)deletedPhotosIDInManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSMutableArray *deletedPhotoID =[[NSMutableArray alloc] init];
+    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:@"DeletedPhoto"];
+    NSSortDescriptor *sortDesciptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    request.sortDescriptors =[NSArray arrayWithObject:sortDesciptor];
+    
+    NSError *error =nil;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || matches ==0) {
+        //handl error
+        return nil;
+    } else {
+        for (DeletedPhoto *deletedPhoto in matches) {
+             [deletedPhotoID addObject:deletedPhoto.unique];
+        }
+    }
+    return deletedPhotoID;
 }
 
 -(void)useDocument
@@ -125,7 +149,7 @@
     // Configure the cell...
     Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = tag.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ photos", tag.count];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos", [tag.photos count]];
     
     return cell;
 }

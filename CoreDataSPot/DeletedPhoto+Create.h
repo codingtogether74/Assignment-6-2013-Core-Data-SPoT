@@ -1,21 +1,15 @@
 //
-//  PhotoTag.m
+//  DeletedPhoto+Create.h
 //  CoreDataSPot
 //
 //  Created by Tatiana Kornilova on 3/13/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
-#import "PhotoTag.h"
+#import "DeletedPhoto.h"
 #import "Photo.h"
-#import "Tag.h"
 
-
-@implementation PhotoTag
-
-@dynamic nameTag;
-@dynamic uniquePhoto;
-@dynamic photo;
-@dynamic tag;
+@interface DeletedPhoto (Create)
++ (DeletedPhoto *)insertDeletedPhoto:(Photo *)photo;
 
 @end

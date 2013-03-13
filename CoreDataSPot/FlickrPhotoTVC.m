@@ -209,6 +209,21 @@
     
     return cell;
 }
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete){
+        //-------------Take photo from NSFetchedResultsController---
+        Photo *photo = nil;
+        if ([self.tag.name isEqualToString:@"All"]){
+            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
+            photo = photoTag.photo;
+        }else {
+            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        }
+         [photo.managedObjectContext performBlock:^{
+            [Photo removePhoto:photo];
+        }];
+    }
+}
 //----------------------------------------------------------------
 # pragma mark   -    prepareForSegue
 //----------------------------------------------------------------

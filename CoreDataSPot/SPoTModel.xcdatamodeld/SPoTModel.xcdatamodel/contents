@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DeletedPhoto" representedClassName="DeletedPhoto" syncable="YES">
+        <attribute name="dateDelete" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumnailURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unique" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="dateView" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,9 +37,10 @@
         <relationship name="photo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="thumnail" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Photo" positionX="-180" positionY="-477" width="128" height="178"/>
-        <element name="Tag" positionX="-441" positionY="-693" width="128" height="103"/>
-        <element name="Thumnail" positionX="-504" positionY="-387" width="128" height="88"/>
-        <element name="PhotoTag" positionX="-0" positionY="-693" width="128" height="103"/>
+        <element name="DeletedPhoto" positionX="-603" positionY="-621" width="128" height="133"/>
+        <element name="Photo" positionX="-144" positionY="-459" width="128" height="178"/>
+        <element name="PhotoTag" positionX="-128" positionY="-738" width="128" height="103"/>
+        <element name="Tag" positionX="-405" positionY="-640" width="128" height="103"/>
+        <element name="Thumnail" positionX="-416" positionY="-355" width="128" height="88"/>
     </elements>
 </model>

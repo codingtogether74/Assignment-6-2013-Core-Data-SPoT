@@ -7,6 +7,7 @@
 //
 
 #import "PhotoTag.h"
+#import "DeletedPhoto.h"
 
 @interface PhotoTag (Insert)
 + (NSSet *)photoTagsFromFlickrInfo:(NSDictionary *)flickrInfo

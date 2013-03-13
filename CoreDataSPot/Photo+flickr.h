@@ -7,6 +7,7 @@
 //
 
 #import "Photo.h"
+#import "DeletedPhoto.h"
 
 @interface Photo (flickr)
 

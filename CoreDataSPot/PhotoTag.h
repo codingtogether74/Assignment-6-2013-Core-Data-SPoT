@@ -2,7 +2,7 @@
 //  PhotoTag.h
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/10/13.
+//  Created by Tatiana Kornilova on 3/13/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
@@ -13,8 +13,8 @@
 
 @interface PhotoTag : NSManagedObject
 
-@property (nonatomic, retain) NSString * uniquePhoto;
 @property (nonatomic, retain) NSString * nameTag;
+@property (nonatomic, retain) NSString * uniquePhoto;
 @property (nonatomic, retain) Photo *photo;
 @property (nonatomic, retain) Tag *tag;
 

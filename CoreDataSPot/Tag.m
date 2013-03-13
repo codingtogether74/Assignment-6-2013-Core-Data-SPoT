@@ -2,7 +2,7 @@
 //  Tag.m
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/10/13.
+//  Created by Tatiana Kornilova on 3/13/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 

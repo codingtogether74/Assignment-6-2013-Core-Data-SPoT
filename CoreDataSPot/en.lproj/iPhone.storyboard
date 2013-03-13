@@ -135,7 +135,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uVc-WV-Rt1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="64"/>
+            <point key="canvasLocation" x="622" y="10"/>
         </scene>
         <!--Image View Controller-->
         <scene sceneID="1ZE-hR-Pxv">
@@ -166,7 +166,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XeO-gM-Dng" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1982" y="498"/>
+            <point key="canvasLocation" x="1924" y="844"/>
         </scene>
         <!--ResentsTVC - Photos-->
         <scene sceneID="EOQ-mp-fYQ">
@@ -213,7 +213,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5e9-lH-bWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1063" y="660"/>
+            <point key="canvasLocation" x="1070" y="734"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="b27-9o-U3m">
@@ -232,7 +232,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jrw-ho-jRo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="650"/>
+            <point key="canvasLocation" x="629" y="741"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="EKE-U7-HWh">
@@ -247,11 +247,78 @@
                     <connections>
                         <segue destination="60e-Ql-sLu" kind="relationship" relationship="viewControllers" id="Xoo-Ut-Tsc"/>
                         <segue destination="ozn-dg-fGS" kind="relationship" relationship="viewControllers" id="Lhp-LO-HDE"/>
+                        <segue destination="Pd0-o9-bmu" kind="relationship" relationship="viewControllers" id="iNC-Va-Uqu"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CM9-c5-ssg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="91" y="64"/>
+        </scene>
+        <!--Deleted PhotoTVC - Deleted Photos-->
+        <scene sceneID="6cJ-LG-dTb">
+            <objects>
+                <tableViewController id="7t6-W0-9En" customClass="DeletedPhotoTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="7kK-xB-Bg7">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Photo Cell" textLabel="BDF-aV-vcd" detailTextLabel="G4Q-Dg-7HZ" style="IBUITableViewCellStyleSubtitle" id="mxc-eV-lmn">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BDF-aV-vcd">
+                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G4Q-Dg-7HZ">
+                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <segue destination="LSi-oV-GI0" kind="push" identifier="Show image" id="gY2-kO-vp7"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7t6-W0-9En" id="BE8-MX-jqq"/>
+                            <outlet property="delegate" destination="7t6-W0-9En" id="l9v-rU-mjH"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Deleted Photos" id="kvv-Xr-jt8"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mzf-mq-F0U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1055" y="1411"/>
+        </scene>
+        <!--Navigation Controller - Deleted-->
+        <scene sceneID="EaX-0F-Arf">
+            <objects>
+                <navigationController id="Pd0-o9-bmu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Deleted" id="rda-RI-dTP"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qPH-ak-jiN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="7t6-W0-9En" kind="relationship" relationship="rootViewController" id="mGk-Nn-kLC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l7a-pu-dEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="639" y="1405"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -260,6 +327,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yJ7-wW-QYb"/>
+        <segue reference="gY2-kO-vp7"/>
     </inferredMetricsTieBreakers>
 </document>

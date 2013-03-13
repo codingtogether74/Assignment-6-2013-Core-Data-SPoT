@@ -10,6 +10,8 @@
 #import "FlickrFetcher.h"
 #import "Tag+Create.h"
 #import "PhotoTag+Insert.h"
+#import "DeletedPhoto+Create.h"
+#import "Thumnail.h"
 
 @implementation Photo (flickr)
 +(Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
@@ -66,7 +68,7 @@
 + (void)removePhoto:(Photo *)photo
 {
     NSManagedObjectContext *context = photo.managedObjectContext;
-    // tags and place could be put in prepareForDeletion
+    // tags could be put in prepareForDeletion
     for (Tag *tag in photo.tags) {
         if ([tag.photos count] == 1) [context deleteObject:tag];
         else tag.count = [NSNumber numberWithInt:[tag.photos count] - 1];
@@ -74,6 +76,8 @@
     for (PhotoTag *photoTag in photo.photoTags) {
         [context deleteObject:photoTag];
      }
+ 
+    [DeletedPhoto insertDeletedPhoto:photo];
     [context deleteObject:photo];
 }
 

@@ -4,9 +4,10 @@
 //
 //  Created by Tatiana Kornilova on 3/8/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
-//
+//MyUIManagedDocument.h from Henry Tsai https://github.com/tsunglintsai/CoreDataSPot
 
 #import "DBHelper.h"
+#import "MyUIManagedDocument.h"
 
 #define DEFAULT_DB_NAME @"Stanford Photos Database"
 
@@ -28,7 +29,7 @@
     if (!_database) {
         NSFileManager *fm = self.fileManager;
         NSURL *baseDir=[[fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-        _database = [[UIManagedDocument alloc] initWithFileURL:
+        _database = [[MyUIManagedDocument alloc] initWithFileURL:
                      [baseDir URLByAppendingPathComponent:self.dbName]];
     }
     return _database;

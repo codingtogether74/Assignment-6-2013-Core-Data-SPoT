@@ -9,6 +9,7 @@
 #import "PhotoTag+Insert.h"
 #import "Photo+flickr.h"
 #import "FlickrFetcher.h"
+#import "Tag.h"
 
 @implementation PhotoTag (Insert)
 + (NSSet *)photoTagsFromFlickrInfo:(NSDictionary *)flickrInfo
@@ -53,5 +54,4 @@
     }
     return photoTags;
 }
-
 @end
