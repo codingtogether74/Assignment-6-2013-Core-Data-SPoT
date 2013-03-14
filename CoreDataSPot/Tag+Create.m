@@ -8,6 +8,7 @@
 
 #import "Tag+Create.h"
 #import "FlickrFetcher.h"
+#import "Photo+flickr.h"
 
 @interface Tag ()
 
@@ -20,7 +21,7 @@
     NSArray *ignoredTags =@[@"cs193pspot", @"portrait", @"landscape"];
     NSMutableArray *tagStrings = [[[flickrInfo objectForKey:FLICKR_TAGS] componentsSeparatedByString:@" "] mutableCopy];
     [tagStrings  removeObjectsInArray:ignoredTags];
-    [tagStrings  addObject:@"All"];
+    [tagStrings  addObject:ALL_PHOTO_TAG_NAME];
     if (![tagStrings count]) return nil;
     
     //---------- Build fetch request.-----------

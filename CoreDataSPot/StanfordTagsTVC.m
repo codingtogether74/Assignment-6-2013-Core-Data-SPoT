@@ -148,7 +148,8 @@
     
     // Configure the cell...
     Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = tag.name;
+    cell.textLabel.text = [tag.name isEqualToString:ALL_PHOTO_TAG_NAME] ? @"All" : [tag.name capitalizedString];
+//    cell.textLabel.text = tag.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos", [tag.photos count]];
     
     return cell;

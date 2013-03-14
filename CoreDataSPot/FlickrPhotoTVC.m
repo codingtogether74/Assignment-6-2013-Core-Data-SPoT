@@ -24,7 +24,7 @@
 @property (nonatomic, strong) NSPredicate *mainPredicate;
 @property (nonatomic, strong) NSString *entityName;
 
-@property (nonatomic, strong) NSArray *searchSortDescriptors; // array of NSSortDescriptor describing how photo been sorted
+@property (nonatomic, strong) NSArray *searchSortDescriptors; 
 @property (nonatomic, strong) NSString *searchSectionKeyPath;
 @property (nonatomic, strong) NSPredicate *searchPredicate;
 
@@ -39,10 +39,12 @@
 {
     _tag = tag;
     self.title =tag.name;
-[[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
-    [self setupFetchedResultsControllerWithDocument:document];
+    [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
+        [self setupFetchedResultsControllerWithDocument:document];
     }];
     self.toResent =YES;
+    self.navigationItem.title = [self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME] ? @"All" : [self.tag.name capitalizedString];
+
 }
 //----------------------------------------------------------------
 # pragma mark   -   Accessors for main NSFetchedResultController
@@ -50,7 +52,7 @@
 
 - (NSPredicate *)mainPredicate{
     if(!_mainPredicate){
-        if (![self.tag.name isEqualToString:@"All"]) {
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             _mainPredicate = [NSPredicate predicateWithFormat:@"(%@ in tags)", self.tag];
         }else{
             _mainPredicate = nil;//[NSPredicate predicateWithFormat:@""];
@@ -61,7 +63,7 @@
 
 - (NSString *)entityName{
     if(!_entityName){
-        if (![self.tag.name isEqualToString:@"All"]) {
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             _entityName = @"Photo";
         }else{
             _entityName = @"PhotoTag";
@@ -72,11 +74,11 @@
 
 - (NSArray*) sortDescriptors{
     if(!_sortDescriptors){
-        if (![self.tag.name isEqualToString:@"All"]) {        
-        _sortDescriptors = @[[NSSortDescriptor
-                              sortDescriptorWithKey:@"title"
-                              ascending:YES
-                              selector:@selector(localizedCaseInsensitiveCompare:)]];
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
+            _sortDescriptors = @[[NSSortDescriptor
+                                  sortDescriptorWithKey:@"title"
+                                  ascending:YES
+                                  selector:@selector(localizedCaseInsensitiveCompare:)]];
         } else {
             _sortDescriptors = @[[NSSortDescriptor
                                   sortDescriptorWithKey:@"nameTag"
@@ -87,15 +89,15 @@
     return _sortDescriptors;
 }
 
- - (NSString *)sectionKeyPath
+- (NSString *)sectionKeyPath
 {
-      if(!_sectionKeyPath){
-          if (![self.tag.name isEqualToString:@"All"]) {
-              _sectionKeyPath = @"title.stringGroupByFirstLetter";
-          }else{
-              _sectionKeyPath = @"nameTag";
-          }          
-      }
+    if(!_sectionKeyPath){
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
+            _sectionKeyPath = @"title.stringGroupByFirstLetter";
+        }else{
+            _sectionKeyPath = @"nameTag";
+        }
+    }
     return _sectionKeyPath;
 }
 
@@ -105,14 +107,14 @@
 
 - (NSArray*) searchSortDescriptors{
     if(!_searchSortDescriptors){
-        if (![self.tag.name isEqualToString:@"All"]) {
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             _searchSortDescriptors = @[[NSSortDescriptor
                                   sortDescriptorWithKey:@"title"
                                   ascending:YES
                                   selector:@selector(localizedCaseInsensitiveCompare:)]];
         } else {
             _searchSortDescriptors = @[[NSSortDescriptor
-                                        sortDescriptorWithKey:@"photo.title"
+                                        sortDescriptorWithKey: @"nameTag"
                                         ascending:YES
                                         selector:@selector(localizedCaseInsensitiveCompare:)]];
         }
@@ -123,10 +125,10 @@
 - (NSString *)searchSectionKeyPath
 {
     if(!_searchSectionKeyPath){
-        if (![self.tag.name isEqualToString:@"All"]) {
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             _searchSectionKeyPath = @"title.stringGroupByFirstLetter";
         }else{
-            _searchSectionKeyPath = nil;
+            _searchSectionKeyPath =  @"nameTag";
         }
     }
     return _searchSectionKeyPath;
@@ -157,7 +159,7 @@
         
         NSFetchRequest *request       =   [NSFetchRequest fetchRequestWithEntityName:self.entityName];
         request.sortDescriptors       =    self.searchSortDescriptors;
-        request.predicate             =   self.searchPredicate;
+        request.predicate             =    self.searchPredicate;
         
         self.fetchedResultsController =    [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                               managedObjectContext: document.managedObjectContext
@@ -175,15 +177,15 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell..
-//-------------Take photo from NSFetchedResultsController---
+    //-------------Take photo from NSFetchedResultsController---
     Photo *photo = nil;
-    if ([self.tag.name isEqualToString:@"All"]){
+    if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
         PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
         photo = photoTag.photo;
     }else {
         photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
     }
-//--------------------------- NSFetchedresultController-----
+    //--------------------------- NSFetchedresultController-----
     cell.textLabel.text = photo.title;
     cell.detailTextLabel.text = photo.subtitle;
     //----Thumnail------------------
@@ -203,17 +205,17 @@
             cell.imageView.image = thumbnail;
             [cell setNeedsLayout];
         });
-        
     });
     //------------------------------
     
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
         //-------------Take photo from NSFetchedResultsController---
         Photo *photo = nil;
-        if ([self.tag.name isEqualToString:@"All"]){
+        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
             PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
             photo = photoTag.photo;
         }else {
@@ -242,7 +244,7 @@
         }
         //===============================================
         Photo *photo = nil;
-        if ([self.tag.name isEqualToString:@"All"]){
+        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
             PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
             photo = photoTag.photo;
         }else {
@@ -276,7 +278,7 @@
         //------ Take photo from NSFetchedResulsController----
         
         Photo *photo = nil;
-        if ([self.tag.name isEqualToString:@"All"]){
+        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
             PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
             photo = photoTag.photo;
         }else {
@@ -300,68 +302,36 @@
     }
 }
 
-#pragma mark - Search delegate
-
+//----------------------------------------------------------------
+# pragma mark   -    SearchViewControl Delegate
+//----------------------------------------------------------------
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
-//    self.tableView.tableHeaderView = nil;
     [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
         [self setupFetchedResultsControllerWithDocument:document];
         [self performFetch];
     }];
-
 }
 
-
-//----------------------------------------------------------------
-# pragma mark   -    SearchViewControl Delegate
-//----------------------------------------------------------------
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    NSInteger searchOption = controller.searchBar.selectedScopeButtonIndex;
-    return [self searchDisplayController:controller shouldReloadTableForSearchString:searchString searchScope:searchOption];
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    NSString* searchString = controller.searchBar.text;
-    return [self searchDisplayController:controller shouldReloadTableForSearchString:searchString searchScope:searchOption];
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView{
-    [self.fetchedResultsController.fetchRequest setPredicate:self.mainPredicate];
-    [self performFetch];
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString*)searchString searchScope:(NSInteger)searchOption {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString*)searchString  {
     NSPredicate *predicate = nil;
-    if ([searchString length] && searchOption == 0){// typing
-//---------------length
-            if (![self.tag.name isEqualToString:@"All"]) {
-                predicate = [NSPredicate predicateWithFormat:@"(title contains[cd] %@)", searchString];
-            }else{
-                predicate = [NSPredicate predicateWithFormat:@"photo.title like[cd] %@", [@"*" stringByAppendingString:[searchString stringByAppendingString:@"*"]]];
-            }
-            
-            if (predicate) {
-                predicate = self.mainPredicate ? [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, self.mainPredicate]]
-                :predicate;
-            }else{
-                predicate =self.mainPredicate;
-            }
-            //-------------Search NSFetchedController-----
-            self.searchPredicate=predicate;
-            [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
-                [self setupSearchFetchedResultsControllerWithDocument:document];
-                [self performFetch];
-           }];
-            //---------------------------------------------
-                return YES;
-//-----------------length
-    }    
+    if ([searchString length]){// typing
+        
+        if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
+            predicate = [NSPredicate predicateWithFormat:@"(title contains[cd] %@)", searchString];
+        }else{
+            predicate = [NSPredicate predicateWithFormat:@"(photo.subtitle CONTAINS[cd] %@) OR (photo.title contains[cd] %@)", searchString , searchString];
+        }
+            predicate = self.mainPredicate ? [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, self.mainPredicate]] :predicate;
+        
+    }
+    //-------------Search NSFetchedController-----
+    self.searchPredicate=predicate;
     [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
-    [self setupFetchedResultsControllerWithDocument:document];
-    [self performFetch];
+        [self setupSearchFetchedResultsControllerWithDocument:document];
+        [self performFetch];
     }];
+    //---------------------------------------------
     return YES;
 }
 

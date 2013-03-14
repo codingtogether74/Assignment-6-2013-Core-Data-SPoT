@@ -9,6 +9,8 @@
 #import "Photo.h"
 #import "DeletedPhoto.h"
 
+#define ALL_PHOTO_TAG_NAME @"$$$$"// make up some characters that will always stay on top of list
+
 @interface Photo (flickr)
 
 +(Photo *)photoWithFlickrInfo:(NSDictionary *)flickrInfo
