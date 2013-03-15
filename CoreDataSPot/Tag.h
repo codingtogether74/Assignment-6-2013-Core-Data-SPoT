@@ -15,22 +15,17 @@
 
 @property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSArray *photos;//NSOrderedSet *photos;
+@property (nonatomic, retain) NSSet *photos;
 @property (nonatomic, retain) NSSet *photoTags;
 @end
 
 @interface Tag (CoreDataGeneratedAccessors)
 
-- (void)insertObject:(Photo *)value inPhotosAtIndex:(NSUInteger)idx;
-- (void)removeObjectFromPhotosAtIndex:(NSUInteger)idx;
-- (void)insertPhotos:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
-- (void)removePhotosAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInPhotosAtIndex:(NSUInteger)idx withObject:(Photo *)value;
-- (void)replacePhotosAtIndexes:(NSIndexSet *)indexes withPhotos:(NSArray *)values;
 - (void)addPhotosObject:(Photo *)value;
 - (void)removePhotosObject:(Photo *)value;
-- (void)addPhotos:(NSArray *)values;  // (NSOrderedSet *)values;
-- (void)removePhotos:(NSArray *)values;//  (NSOrderedSet *)values;
+- (void)addPhotos:(NSSet *)values;
+- (void)removePhotos:(NSSet *)values;
+
 - (void)addPhotoTagsObject:(PhotoTag *)value;
 - (void)removePhotoTagsObject:(PhotoTag *)value;
 - (void)addPhotoTags:(NSSet *)values;

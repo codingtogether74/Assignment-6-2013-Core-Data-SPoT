@@ -33,7 +33,7 @@
 
 - (void)addTagsObject:(Tag *)value;
 - (void)removeTagsObject:(Tag *)value;
-- (void)addTags:(NSOrderedSet *)values;
-- (void)removeTags:(NSOrderedSet *)values;
+- (void)addTags:(NSSet *)values;
+- (void)removeTags:(NSSet *)values;
 
 @end
