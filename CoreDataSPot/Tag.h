@@ -16,7 +16,7 @@
 @property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *photos;
-@property (nonatomic, retain) NSSet *photoTags;
+@property (nonatomic, retain) NSSet *photoTags;//???
 @end
 
 @interface Tag (CoreDataGeneratedAccessors)

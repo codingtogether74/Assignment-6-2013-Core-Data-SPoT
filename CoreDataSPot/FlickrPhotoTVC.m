@@ -322,8 +322,7 @@
         }else{
             predicate = [NSPredicate predicateWithFormat:@"(photo.subtitle CONTAINS[cd] %@) OR (photo.title contains[cd] %@)", searchString , searchString];
         }
-            predicate = self.mainPredicate ? [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, self.mainPredicate]] :predicate;
-        
+            predicate = self.mainPredicate ? [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, self.mainPredicate]] :predicate;        
     }
     //-------------Search NSFetchedController-----
     self.searchPredicate=predicate;

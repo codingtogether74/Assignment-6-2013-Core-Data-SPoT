@@ -31,8 +31,7 @@
 {
     [super viewWillAppear:animated];
     self.toResent = NO;
-    [[DBHelper sharedManagedDocument] performWithDocument:
-     ^(UIManagedDocument *document) {
+    [[DBHelper sharedManagedDocument] performWithDocument:^(UIManagedDocument *document) {
          [self setupFetchedResultsControllerWithDocument:document];
      }];
 }
