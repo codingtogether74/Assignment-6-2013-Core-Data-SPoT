@@ -2,7 +2,7 @@
 //  Photo.h
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/13/13.
+//  Created by Tatiana Kornilova on 3/15/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
@@ -33,7 +33,7 @@
 
 - (void)addTagsObject:(Tag *)value;
 - (void)removeTagsObject:(Tag *)value;
-- (void)addTags:(NSSet *)values;
-- (void)removeTags:(NSSet *)values;
+- (void)addTags:(NSOrderedSet *)values;
+- (void)removeTags:(NSOrderedSet *)values;
 
 @end

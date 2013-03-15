@@ -30,7 +30,7 @@
     
   
     Tag *tag;
-    NSMutableSet *tags = [NSMutableSet setWithCapacity:[tagStrings count]];
+    NSMutableSet *tags = [NSMutableSet  setWithCapacity:[tagStrings count]];
     for (NSString *tagName in tagStrings) {
         tag = nil;
         if (!tagName || [tagName isEqualToString:@""]) continue;

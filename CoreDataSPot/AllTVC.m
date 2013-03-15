@@ -13,7 +13,6 @@
 #import "Tag+Create.h"
 #import "Thumnail+Create.h"
 
-
 @interface AllTVC ()
 
 @end
@@ -25,7 +24,7 @@
 {
     NSFetchRequest *request       =  [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
     request.sortDescriptors       =  [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
-   request.predicate             =  [NSPredicate predicateWithFormat:@"name!=%@",@"$$$$"];
+    request.predicate             =   [NSPredicate predicateWithFormat:@"name!=%@",@"$$$$"];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc]
                                      initWithFetchRequest:request
@@ -87,10 +86,10 @@
     // Configure the cell..
     //-------------Take tag from NSFetchedResultsController---
     Tag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-
-        NSOrderedSet *photos =[NSOrderedSet orderedSetWithSet:tag.photos];
-        Photo *photo = [photos objectAtIndex:indexPath.row];
-    //--------------------------- NSFetchedresultController-----
+     NSArray *descriptors =[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES]];
+     NSArray *photos =[tag.photos sortedArrayUsingDescriptors:descriptors];
+     Photo *photo = [photos objectAtIndex:indexPath.row];
+    //--------------------------------
     cell.textLabel.text = photo.title;
     cell.detailTextLabel.text = photo.subtitle;
     //----Thumnail------------------
@@ -128,9 +127,10 @@
         if (indexPath) {
             //-------------Take tag from NSFetchedResultsController---
             Tag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-            
-            NSOrderedSet *photos =[NSOrderedSet orderedSetWithSet:tag.photos];
+            NSArray *descriptors =[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES]];
+            NSArray *photos =[tag.photos sortedArrayUsingDescriptors:descriptors];
             Photo *photo = [photos objectAtIndex:indexPath.row];
+            //--------------------------------------------------------
             if ([segue.identifier isEqualToString:@"Show image"]) {
                 if ([segue.destinationViewController respondsToSelector:@selector(setImageURL:)]) {
                     [segue.destinationViewController performSelector:@selector(setImageURL:) withObject:[NSURL URLWithString:photo.imageURL]];
@@ -150,10 +150,10 @@
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
         //------ Take photo from NSFetchedResulsController----
         Tag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-        
-        NSOrderedSet *photos =[NSOrderedSet orderedSetWithSet:tag.photos];
+        NSArray *descriptors =[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES]];
+        NSArray *photos =[tag.photos sortedArrayUsingDescriptors:descriptors];
         Photo *photo = [photos objectAtIndex:indexPath.row];
-
+        //-----------------------------------------------
         ImageViewController *photoViewController =
         (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
         if (photoViewController) {

@@ -28,7 +28,7 @@
     <entity name="Tag" representedClassName="Tag" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="tags" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Photo" inverseName="tags" inverseEntity="Photo" syncable="YES"/>
         <relationship name="photoTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoTag" inverseName="tag" inverseEntity="PhotoTag" syncable="YES"/>
     </entity>
     <entity name="Thumnail" representedClassName="Thumnail" syncable="YES">
