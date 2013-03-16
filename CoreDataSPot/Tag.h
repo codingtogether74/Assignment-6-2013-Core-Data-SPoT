@@ -2,7 +2,7 @@
 //  Tag.h
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/15/13.
+//  Created by Tatiana Kornilova on 3/16/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
@@ -15,17 +15,22 @@
 
 @property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSSet *photos;
+@property (nonatomic, retain) NSOrderedSet *photos;
 @property (nonatomic, retain) NSSet *photoTags;
 @end
 
 @interface Tag (CoreDataGeneratedAccessors)
 
+- (void)insertObject:(Photo *)value inPhotosAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromPhotosAtIndex:(NSUInteger)idx;
+- (void)insertPhotos:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removePhotosAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInPhotosAtIndex:(NSUInteger)idx withObject:(Photo *)value;
+- (void)replacePhotosAtIndexes:(NSIndexSet *)indexes withPhotos:(NSArray *)values;
 - (void)addPhotosObject:(Photo *)value;
 - (void)removePhotosObject:(Photo *)value;
-- (void)addPhotos:(NSSet *)values;
-- (void)removePhotos:(NSSet *)values;
-
+- (void)addPhotos:(NSOrderedSet *)values;
+- (void)removePhotos:(NSOrderedSet *)values;
 - (void)addPhotoTagsObject:(PhotoTag *)value;
 - (void)removePhotoTagsObject:(PhotoTag *)value;
 - (void)addPhotoTags:(NSSet *)values;

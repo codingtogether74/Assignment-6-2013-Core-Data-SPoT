@@ -17,7 +17,6 @@
 
 @interface FlickrPhotoTVC () <UISearchDisplayDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-//@property (nonatomic) BOOL toResent;
 
 @property (nonatomic, strong) NSArray *sortDescriptors; // array of NSSortDescriptor describing how photo been sorted
 @property (nonatomic, strong) NSString *sectionKeyPath;
@@ -171,12 +170,8 @@
 # pragma mark   -   Table view data source
 //----------------------------------------------------------------
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (Photo *)photoForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Flickr Photo Cell";
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell..
     //-------------Take photo from NSFetchedResultsController---
     Photo *photo = nil;
     if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
@@ -185,42 +180,47 @@
     }else {
         photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
     }
-    //--------------------------- NSFetchedresultController-----
+    //---------------------------------------------------------
+    return photo;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Flickr Photo Cell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    // Configure the cell..
+    Photo *photo = [self photoForRowAtIndexPath:indexPath];
     cell.textLabel.text = photo.title;
     cell.detailTextLabel.text = photo.subtitle;
     //----Thumnail------------------
-    dispatch_queue_t q = dispatch_queue_create("thumbnail download queue", 0);
-    dispatch_async(q, ^{
-        NSURL *thumbnailURL =  [NSURL URLWithString:photo.thumnailURL];
-        NSData *imageData = [Thumnail  imageDataThumnailForPhoto:photo];
-        if (!imageData){
-            
-            imageData = [[NSData alloc] initWithContentsOfURL:thumbnailURL];
-        }
-        UIImage *thumbnail =[[UIImage alloc] initWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [photo.managedObjectContext performBlock:^{
-                [Thumnail  insertThumnail:imageData forPhoto:photo];
-            }];
-            cell.imageView.image = thumbnail;
-            [cell setNeedsLayout];
+    NSURL *thumbnailURL =  [NSURL URLWithString:photo.thumnailURL];
+    NSData *imageData = photo.thumbnailData;
+    if (!imageData){
+        dispatch_queue_t q = dispatch_queue_create("thumbnail download queue", 0);
+        dispatch_async(q, ^{
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL:thumbnailURL];
+            UIImage *thumbnail =[[UIImage alloc] initWithData:imageData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [photo.managedObjectContext performBlock:^{
+                    photo.thumbnailData = imageData;
+                }];
+                cell.imageView.image = thumbnail;
+                [cell setNeedsLayout];
+            });
         });
-    });
+    } else {
+        UIImage *thumbnail =[[UIImage alloc] initWithData:imageData];
+        cell.imageView.image = thumbnail;
+        [cell setNeedsLayout];
+    }
     //------------------------------
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
-        //-------------Take photo from NSFetchedResultsController---
-        Photo *photo = nil;
-        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
-            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
-            photo = photoTag.photo;
-        }else {
-            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
+        Photo *photo = [self photoForRowAtIndexPath:indexPath];
          [photo.managedObjectContext performBlock:^{
             [Photo removePhoto:photo];
         }];
@@ -243,13 +243,7 @@
             indexPath = [self.tableView indexPathForCell:sender];
         }
         //===============================================
-        Photo *photo = nil;
-        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
-            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
-            photo = photoTag.photo;
-        }else {
-            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
+        Photo *photo = [self photoForRowAtIndexPath:indexPath];
         if (indexPath) {
             if ([segue.identifier isEqualToString:@"Show image"]) {
                 if ([segue.destinationViewController respondsToSelector:@selector(setImageURL:)]) {
@@ -275,16 +269,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {  // only iPad
-        //------ Take photo from NSFetchedResulsController----
-        
-        Photo *photo = nil;
-        if ([self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]){
-            PhotoTag *photoTag = [self.fetchedResultsController objectAtIndexPath:indexPath];
-            photo = photoTag.photo;
-        }else {
-            photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
-        //---------------------------------------------------
+        Photo *photo = [self photoForRowAtIndexPath:indexPath];
         ImageViewController *photoViewController =
         (ImageViewController *) [[self.splitViewController viewControllers] lastObject];
         if (photoViewController) {
@@ -320,7 +305,7 @@
         if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             predicate = [NSPredicate predicateWithFormat:@"(title contains[cd] %@)", searchString];
         }else{
-            predicate = [NSPredicate predicateWithFormat:@"(photo.subtitle CONTAINS[cd] %@) OR (photo.title contains[cd] %@)", searchString , searchString];
+            predicate = [NSPredicate predicateWithFormat:@"(photo.subtitle contains[cd] %@) OR (photo.title contains[cd] %@)", searchString , searchString];
         }
             predicate = self.mainPredicate ? [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, self.mainPredicate]] :predicate;        
     }

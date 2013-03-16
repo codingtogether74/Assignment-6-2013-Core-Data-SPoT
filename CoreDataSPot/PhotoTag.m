@@ -2,7 +2,7 @@
 //  PhotoTag.m
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/15/13.
+//  Created by Tatiana Kornilova on 3/16/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 

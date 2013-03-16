@@ -37,9 +37,9 @@
         photo.thumnailURL = [[FlickrFetcher urlForPhoto:flickrInfo format:FlickrPhotoFormatSquare] absoluteString];
         photo.tags = [Tag tagsFromFlickrInfo:flickrInfo inManagedObjectContext:context];
         photo.photoTags = [PhotoTag photoTagsFromFlickrInfo:flickrInfo inManagedObjectContext:context];
+        [self updateTagsForPhoto:photo];
 
-        //start creating objects in document's context
-    } else {
+        } else {
         photo =[matches lastObject];
     }
     return photo;
@@ -94,4 +94,21 @@
     [Photo removePhoto:[Photo exisitingPhotoWithID:photoID inManagedObjectContext:context]];
 }
 
++(void)updateTagsForPhoto:(Photo *)photo
+{
+    NSManagedObjectContext *context = photo.managedObjectContext;
+    NSSet *tags =photo.tags;
+    for (Tag *tag in tags) {
+        NSMutableOrderedSet *photos = [tag.photos mutableCopy];
+        NSArray *sortedPhotos = [photos sortedArrayUsingComparator:
+                                 ^NSComparisonResult(Photo *photo1, Photo *photo2) {
+                                     NSString *first = photo1.title;
+                                     NSString *second = photo2.title;
+                                     return [first caseInsensitiveCompare:second];
+                                 }];
+        tag.photos =[NSOrderedSet orderedSetWithArray:sortedPhotos ];
+        
+    }
+    [context updatedObjects];
+}
 @end

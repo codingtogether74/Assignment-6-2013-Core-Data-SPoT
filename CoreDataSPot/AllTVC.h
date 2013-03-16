@@ -9,5 +9,6 @@
 #import "FlickrPhotoTVC.h"
 
 @interface AllTVC : FlickrPhotoTVC
+@property (nonatomic) BOOL toResent;
 
 @end
