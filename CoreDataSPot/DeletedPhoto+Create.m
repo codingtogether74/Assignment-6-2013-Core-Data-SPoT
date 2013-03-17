@@ -32,6 +32,7 @@
         deletedPhoto.subtitle =photo.subtitle;
         deletedPhoto.imageURL = photo.imageURL;
         deletedPhoto.thumnailURL = photo.thumnailURL;
+        deletedPhoto.thumbnailData = photo.thumbnailData;
         deletedPhoto.dateDelete = [NSDate date];
         [context insertObject:deletedPhoto];
 

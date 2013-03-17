@@ -220,7 +220,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
-        Photo *photo = [self photoForRowAtIndexPath:indexPath];
+//        Photo *photo = [self photoForRowAtIndexPath:indexPath];
+            Photo *photo = [self photoForRowAtIndexPath:indexPath];
          [photo.managedObjectContext performBlock:^{
             [Photo removePhoto:photo];
         }];

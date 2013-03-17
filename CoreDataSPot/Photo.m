@@ -16,10 +16,10 @@
 @dynamic dateView;
 @dynamic imageURL;
 @dynamic subtitle;
+@dynamic thumbnailData;
 @dynamic thumnailURL;
 @dynamic title;
 @dynamic unique;
-@dynamic thumbnailData;
 @dynamic photoTags;
 @dynamic tags;
 

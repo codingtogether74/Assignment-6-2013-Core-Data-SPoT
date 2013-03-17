@@ -17,5 +17,6 @@
 @dynamic thumnailURL;
 @dynamic title;
 @dynamic unique;
+@dynamic thumbnailData;
 
 @end

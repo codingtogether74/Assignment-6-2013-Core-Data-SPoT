@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E437F39E16F57C890047CF1F /* PhotoTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E437F39D16F57C880047CF1F /* PhotoTag.m */; };
 		E4956DB816F099E000D1D933 /* DeletedPhoto+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = E4956DB716F099E000D1D933 /* DeletedPhoto+Create.m */; };
 		E4956DCA16F0A77E00D1D933 /* DeletedPhotoTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E4956DC916F0A77E00D1D933 /* DeletedPhotoTVC.m */; };
 		E4956DCD16F0DB4400D1D933 /* MyUIManagedDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E4956DCC16F0DB4400D1D933 /* MyUIManagedDocument.m */; };
@@ -41,13 +42,14 @@
 		E4FEDC8016F31F6A00BEAB4E /* AllTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FEDC7F16F31F6900BEAB4E /* AllTVC.m */; };
 		E4FEDC8316F330CD00BEAB4E /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = E4FEDC8116F330CD00BEAB4E /* camera.png */; };
 		E4FEDC8416F330CD00BEAB4E /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4FEDC8216F330CD00BEAB4E /* camera@2x.png */; };
-		E4FEDCA516F445DE00BEAB4E /* PhotoTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FEDCA416F445DE00BEAB4E /* PhotoTag.m */; };
 		E4FEDCA816F445E000BEAB4E /* DeletedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FEDCA716F445DF00BEAB4E /* DeletedPhoto.m */; };
 		E4FEDCAE16F445E300BEAB4E /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FEDCAD16F445E300BEAB4E /* Photo.m */; };
 		E4FEDCB116F445E400BEAB4E /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FEDCB016F445E400BEAB4E /* Tag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E437F39C16F57C880047CF1F /* PhotoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTag.h; sourceTree = "<group>"; };
+		E437F39D16F57C880047CF1F /* PhotoTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTag.m; sourceTree = "<group>"; };
 		E4956DB616F099E000D1D933 /* DeletedPhoto+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeletedPhoto+Create.h"; sourceTree = "<group>"; };
 		E4956DB716F099E000D1D933 /* DeletedPhoto+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DeletedPhoto+Create.m"; sourceTree = "<group>"; };
 		E4956DC816F0A77E00D1D933 /* DeletedPhotoTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeletedPhotoTVC.h; sourceTree = "<group>"; };
@@ -107,8 +109,6 @@
 		E4FEDC7F16F31F6900BEAB4E /* AllTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllTVC.m; sourceTree = "<group>"; };
 		E4FEDC8116F330CD00BEAB4E /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		E4FEDC8216F330CD00BEAB4E /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
-		E4FEDCA316F445DE00BEAB4E /* PhotoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTag.h; sourceTree = "<group>"; };
-		E4FEDCA416F445DE00BEAB4E /* PhotoTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTag.m; sourceTree = "<group>"; };
 		E4FEDCA616F445DF00BEAB4E /* DeletedPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeletedPhoto.h; sourceTree = "<group>"; };
 		E4FEDCA716F445DF00BEAB4E /* DeletedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeletedPhoto.m; sourceTree = "<group>"; };
 		E4FEDCAC16F445E200BEAB4E /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -217,14 +217,14 @@
 		E49684A516EBACCE00AA980F /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				E437F39C16F57C880047CF1F /* PhotoTag.h */,
+				E437F39D16F57C880047CF1F /* PhotoTag.m */,
 				E4FEDCAF16F445E300BEAB4E /* Tag.h */,
 				E4FEDCB016F445E400BEAB4E /* Tag.m */,
 				E4FEDCAC16F445E200BEAB4E /* Photo.h */,
 				E4FEDCAD16F445E300BEAB4E /* Photo.m */,
 				E4FEDCA616F445DF00BEAB4E /* DeletedPhoto.h */,
 				E4FEDCA716F445DF00BEAB4E /* DeletedPhoto.m */,
-				E4FEDCA316F445DE00BEAB4E /* PhotoTag.h */,
-				E4FEDCA416F445DE00BEAB4E /* PhotoTag.m */,
 				E49683E516E9B89000AA980F /* Photo+flickr.h */,
 				E49683E616E9B89000AA980F /* Photo+flickr.m */,
 				E49683E816E9C0EB00AA980F /* Tag+Create.h */,
@@ -353,10 +353,10 @@
 				E4956DCA16F0A77E00D1D933 /* DeletedPhotoTVC.m in Sources */,
 				E4956DCD16F0DB4400D1D933 /* MyUIManagedDocument.m in Sources */,
 				E4FEDC8016F31F6A00BEAB4E /* AllTVC.m in Sources */,
-				E4FEDCA516F445DE00BEAB4E /* PhotoTag.m in Sources */,
 				E4FEDCA816F445E000BEAB4E /* DeletedPhoto.m in Sources */,
 				E4FEDCAE16F445E300BEAB4E /* Photo.m in Sources */,
 				E4FEDCB116F445E400BEAB4E /* Tag.m in Sources */,
+				E437F39E16F57C890047CF1F /* PhotoTag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

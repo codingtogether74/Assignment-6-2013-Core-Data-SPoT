@@ -16,10 +16,10 @@
 @property (nonatomic, retain) NSDate * dateView;
 @property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) NSString * subtitle;
+@property (nonatomic, retain) NSData * thumbnailData;
 @property (nonatomic, retain) NSString * thumnailURL;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * unique;
-@property (nonatomic, retain) NSData * thumbnailData;
 @property (nonatomic, retain) NSSet *photoTags;
 @property (nonatomic, retain) NSSet *tags;
 @end
