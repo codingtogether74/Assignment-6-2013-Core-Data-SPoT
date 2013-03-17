@@ -30,6 +30,7 @@
 - (void)addPhotosObject:(Photo *)value;
 - (void)removePhotosObject:(Photo *)value;
 - (void)addPhotos:(NSOrderedSet *)values;
+
 - (void)removePhotos:(NSOrderedSet *)values;
 - (void)addPhotoTagsObject:(PhotoTag *)value;
 - (void)removePhotoTagsObject:(PhotoTag *)value;

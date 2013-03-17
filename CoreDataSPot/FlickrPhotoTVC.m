@@ -112,8 +112,9 @@
                                   ascending:YES
                                   selector:@selector(localizedCaseInsensitiveCompare:)]];
         } else {
+  
             _searchSortDescriptors = @[[NSSortDescriptor
-                                        sortDescriptorWithKey: @"nameTag"
+                                        sortDescriptorWithKey:@"nameTag"
                                         ascending:YES
                                         selector:@selector(localizedCaseInsensitiveCompare:)]];
         }
@@ -127,7 +128,7 @@
         if (![self.tag.name isEqualToString:ALL_PHOTO_TAG_NAME]) {
             _searchSectionKeyPath = @"title.stringGroupByFirstLetter";
         }else{
-            _searchSectionKeyPath =  @"nameTag";
+            _searchSectionKeyPath = nil; // @"nameTag";
         }
     }
     return _searchSectionKeyPath;
