@@ -2,7 +2,7 @@
 //  Photo.m
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/16/13.
+//  Created by Tatiana Kornilova on 3/18/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 

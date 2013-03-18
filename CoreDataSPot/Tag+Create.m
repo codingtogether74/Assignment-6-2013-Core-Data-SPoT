@@ -47,7 +47,7 @@
             tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tag"
                                                 inManagedObjectContext:context];
             tag.name = [tagName capitalizedString];
-            tag.count =  @1;//[NSNumber numberWithInt:1];
+            tag.count =  @1;
         } else {
             tag = [matches lastObject];
             tag.count = [NSNumber numberWithInt:[tag.count intValue] + 1];    
@@ -55,8 +55,7 @@
         //----------- Add the tag to the set.----------
         if (tag) [tags addObject:tag];
     }
-    return tags;
+     return tags;
 }
-
 
 @end

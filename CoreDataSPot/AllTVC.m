@@ -33,12 +33,32 @@
                                      cacheName:nil];
 }
 
+// Sort photos in Tags before use in NSFetchedResultsController
+-(void)sortPhotosInTagsInDocument:(UIManagedDocument *)document
+
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
+    request.predicate = [NSPredicate predicateWithFormat:@"photos.@count > 1"];
+    NSArray *tags = [document.managedObjectContext executeFetchRequest:request error:NULL];
+    for (Tag *tag in tags) {
+        NSMutableOrderedSet *photos = [tag.photos mutableCopy];
+            NSArray *sortedPhotos = [photos sortedArrayUsingComparator:
+                                     ^NSComparisonResult(Photo *photo1, Photo *photo2) {
+                                         NSString *first = photo1.title;
+                                         NSString *second = photo2.title;
+                                         return [first caseInsensitiveCompare:second];
+                                     }];
+            tag.photos =[NSOrderedSet orderedSetWithArray: sortedPhotos];
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.toResent = YES;
     [[DBHelper sharedManagedDocument] performWithDocument:
      ^(UIManagedDocument *document) {
+         [self sortPhotosInTagsInDocument:document];
          [self setupFetchedResultsControllerWithDocument:document];
      }];
 }
