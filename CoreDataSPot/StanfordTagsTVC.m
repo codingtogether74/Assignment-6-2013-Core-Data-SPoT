@@ -7,8 +7,9 @@
 //
 
 #import "StanfordTagsTVC.h"
-#import "Tag.h"
+#import "Tag+Create.h"
 #import "Photo+flickr.h"
+#import "DeletedPhoto+Create.h"
 #import "NetworkIndicatorHelper.h"
 #import "DBHelper.h"
 
@@ -61,12 +62,14 @@
         // put the photos in Core Data
         [self.managedObjectContext performBlock:^{
  //----remove deleted photos --
-            NSArray *deletedPhotoID =[self deletedPhotosIDInManagedObjectContext:self.managedObjectContext];
+            NSArray *deletedPhotoID =[DeletedPhoto deletedPhotosIDInManagedObjectContext:self.managedObjectContext];
             for (NSDictionary *photo in photos) {
                 NSString *unique =[photo[FLICKR_PHOTO_ID] description];
                 if ([deletedPhotoID containsObject:unique]) continue;
                 [Photo photoWithFlickrInfo:photo inManagedObjectContext:self.managedObjectContext];
             }
+            [Tag sortPhotosInTagsinManagedObjectContext:self.managedObjectContext];
+
             // should probably saveToURL:forSaveOperation:(UIDocumentSaveForOverwriting)completionHandler: here!
             // we could decide to rely on UIManagedDocument's autosaving, but explicit saving would be better
             // because if we quit the app before autosave happens, then it'll come up blank next time we run
@@ -80,26 +83,6 @@
             });
         }];
     });
-}
-- (NSArray *)deletedPhotosIDInManagedObjectContext:(NSManagedObjectContext *)context
-{
-    NSMutableArray *deletedPhotoID =[[NSMutableArray alloc] init];
-    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:@"DeletedPhoto"];
-    NSSortDescriptor *sortDesciptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
-    request.sortDescriptors =[NSArray arrayWithObject:sortDesciptor];
-    
-    NSError *error =nil;
-    NSArray *matches = [context executeFetchRequest:request error:&error];
-    
-    if (!matches || matches ==0) {
-        //handl error
-        return nil;
-    } else {
-        for (DeletedPhoto *deletedPhoto in matches) {
-             [deletedPhotoID addObject:deletedPhoto.unique];
-        }
-    }
-    return deletedPhotoID;
 }
 
 -(void)useDocument
@@ -149,9 +132,8 @@
     // Configure the cell...
     Tag *tag = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [tag.name isEqualToString:ALL_PHOTO_TAG_NAME] ? @"All" : [tag.name capitalizedString];
-//    cell.textLabel.text = tag.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos", [tag.photos count]];
-    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photo%@", [tag.photos count], ([tag.photos count]==1) ? @"" : @"s"];
+   
     return cell;
 }
 #pragma mark - Segue

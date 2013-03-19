@@ -2,7 +2,7 @@
 //  Tag.h
 //  CoreDataSPot
 //
-//  Created by Tatiana Kornilova on 3/18/13.
+//  Created by Tatiana Kornilova on 3/19/13.
 //  Copyright (c) 2013 Tatiana Kornilova. All rights reserved.
 //
 
@@ -13,7 +13,6 @@
 
 @interface Tag : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSOrderedSet *photos;
 @property (nonatomic, retain) NSSet *photoTags;

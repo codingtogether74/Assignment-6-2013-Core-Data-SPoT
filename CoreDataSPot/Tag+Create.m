@@ -47,15 +47,33 @@
             tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tag"
                                                 inManagedObjectContext:context];
             tag.name = [tagName capitalizedString];
-            tag.count =  @1;
         } else {
-            tag = [matches lastObject];
-            tag.count = [NSNumber numberWithInt:[tag.count intValue] + 1];    
+            tag = [matches lastObject];  
         }
         //----------- Add the tag to the set.----------
         if (tag) [tags addObject:tag];
     }
      return tags;
 }
+// Sort photos in Tags before use in NSFetchedResultsController
++ (void)sortPhotosInTagsinManagedObjectContext:(NSManagedObjectContext *)context
+
+
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
+    request.predicate = [NSPredicate predicateWithFormat:@"photos.@count > 1"];
+    NSArray *tags = [context executeFetchRequest:request error:NULL];
+    for (Tag *tag in tags) {
+        NSMutableOrderedSet *photos = [tag.photos mutableCopy];
+        NSArray *sortedPhotos = [photos sortedArrayUsingComparator:
+                                 ^NSComparisonResult(Photo *photo1, Photo *photo2) {
+                                     NSString *first = photo1.title;
+                                     NSString *second = photo2.title;
+                                     return [first caseInsensitiveCompare:second];
+                                 }];
+        tag.photos =[NSOrderedSet orderedSetWithArray: sortedPhotos];
+    }
+}
+
 
 @end

@@ -11,5 +11,6 @@
 
 @interface DeletedPhoto (Create)
 + (DeletedPhoto *)insertDeletedPhoto:(Photo *)photo;
++ (NSArray *)deletedPhotosIDInManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

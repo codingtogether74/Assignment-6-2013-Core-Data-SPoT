@@ -11,4 +11,5 @@
 @interface Tag (Create)
 + (NSSet *)tagsFromFlickrInfo:(NSDictionary *)flickrInfo
        inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)sortPhotosInTagsinManagedObjectContext:(NSManagedObjectContext *)context;
 @end

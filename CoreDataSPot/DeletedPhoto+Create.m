@@ -43,5 +43,25 @@
     return deletedPhoto;
 }
 
++ (NSArray *)deletedPhotosIDInManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSMutableArray *deletedPhotoID =[[NSMutableArray alloc] init];
+    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:@"DeletedPhoto"];
+    NSSortDescriptor *sortDesciptor = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES];
+    request.sortDescriptors =[NSArray arrayWithObject:sortDesciptor];
+    
+    NSError *error =nil;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || matches ==0) {
+        //handl error
+        return nil;
+    } else {
+        for (DeletedPhoto *deletedPhoto in matches) {
+            [deletedPhotoID addObject:deletedPhoto.unique];
+        }
+    }
+    return deletedPhotoID;
+}
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DeletedPhoto" representedClassName="DeletedPhoto" syncable="YES">
         <attribute name="dateDelete" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,7 +27,6 @@
         <relationship name="tag" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="photoTags" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
-        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Photo" inverseName="tags" inverseEntity="Photo" syncable="YES"/>
         <relationship name="photoTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoTag" inverseName="tag" inverseEntity="PhotoTag" syncable="YES"/>
@@ -36,6 +35,6 @@
         <element name="DeletedPhoto" positionX="-144" positionY="-621" width="128" height="148"/>
         <element name="Photo" positionX="-144" positionY="-459" width="128" height="178"/>
         <element name="PhotoTag" positionX="-396" positionY="-486" width="128" height="103"/>
-        <element name="Tag" positionX="-405" positionY="-640" width="128" height="103"/>
+        <element name="Tag" positionX="-405" positionY="-640" width="128" height="90"/>
     </elements>
 </model>

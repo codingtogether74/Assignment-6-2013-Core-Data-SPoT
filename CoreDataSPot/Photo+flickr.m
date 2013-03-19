@@ -70,7 +70,6 @@
     // tags could be put in prepareForDeletion
     for (Tag *tag in photo.tags) {
         if ([tag.photos count] == 1) [context deleteObject:tag];
-        else tag.count = [NSNumber numberWithInt:[tag.photos count] - 1];
     }
     for (PhotoTag *photoTag in photo.photoTags) {
         [context deleteObject:photoTag];
